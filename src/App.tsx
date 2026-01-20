@@ -1,35 +1,64 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useCallback, useEffect } from 'react';
+import Editor from './components/Editor/Editor';
+import { markdownToHTML } from './utils/markdownParser';
+import './styles/editor.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [autoSave, setAutoSave] = useState(true);
+  
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
+  }, [theme]);
+
+  const toggleTheme = useCallback(() => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  }, []);
+
+  const handleExportHTML = useCallback((content: string) => {
+    const html = markdownToHTML(content);
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'document.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className={`app-container ${theme}`}>
+      <header className="app-header">
+        <div className="app-controls">
+          <button onClick={toggleTheme} className="theme-toggle">
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
+          <label className="switch">
+            <input 
+              type="checkbox" 
+              checked={autoSave} 
+              onChange={(e) => setAutoSave(e.target.checked)} 
+            />
+            <span className="slider">Автосохранение</span>
+          </label>
+        </div>
+      </header>
+      
+      <main className="app-main">
+        <Editor 
+          autoSave={autoSave}
+          onExportHTML={handleExportHTML}
+          theme={theme}
+        />
+      </main>
+    </div>
+  );
+};
 
-export default App
+export default App;

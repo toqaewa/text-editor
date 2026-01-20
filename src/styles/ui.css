@@ -1,0 +1,134 @@
+/* Стили для Select компонента */
+.select-container {
+  position: relative;
+  min-width: 120px;
+}
+
+/* Анимация для выпадающего списка */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Стили для селектов в тулбаре */
+.font-select,
+.size-select,
+.heading-select,
+.export-select {
+  min-width: 140px;
+}
+
+/* Улучшенные стили для опций выпадающего списка */
+.select-container [role="listbox"] {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e0 transparent;
+}
+
+.select-container [role="listbox"]::-webkit-scrollbar {
+  width: 6px;
+}
+
+.select-container [role="listbox"]::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.select-container [role="listbox"]::-webkit-scrollbar-thumb {
+  background-color: #cbd5e0;
+  border-radius: 3px;
+}
+
+.select-container [role="option"] {
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.select-container [role="option"]:last-child {
+  border-bottom: none;
+}
+
+.select-container [role="option"]:hover {
+  background-color: #f7fafc;
+}
+
+.select-container [role="option"][aria-selected="true"] {
+  background-color: #ebf8ff;
+  font-weight: 500;
+}
+
+/* Стили для группы селектов */
+.select-group {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .toolbar-group {
+    flex-wrap: wrap;
+    border-right: none;
+    padding: 4px;
+  }
+  
+  .font-select,
+  .size-select,
+  .heading-select {
+    min-width: 100px;
+  }
+  
+  .select-container {
+    min-width: 100px;
+  }
+}
+
+/* Темная тема для Select */
+.dark-theme .select-container button {
+  background: #2d3748;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
+.dark-theme .select-container [role="listbox"] {
+  background: #2d3748;
+  border-color: #4a5568;
+}
+
+.dark-theme .select-container [role="option"] {
+  color: #e2e8f0;
+  border-bottom-color: #4a5568;
+}
+
+.dark-theme .select-container [role="option"]:hover {
+  background-color: #4a5568;
+}
+
+.dark-theme .select-container [role="option"][aria-selected="true"] {
+  background-color: #3182ce;
+}
+
+.dark-theme .select-group {
+  background: #2d3748;
+  border-color: #4a5568;
+}
+
+/* Утилитарные классы для размеров */
+.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+.px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.text-sm { font-size: 0.875rem; }
+.text-base { font-size: 1rem; }
+.text-lg { font-size: 1.125rem; }
